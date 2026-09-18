@@ -19,7 +19,14 @@
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{items}[circle]
 \setbeamertemplate{frametitle}{\vspace{0.18cm}\insertframetitle\par\vspace{0.02cm}{\color{Turquesa}\rule{1.35cm}{1.7pt}}}
-\setbeamertemplate{footline}{\begin{beamercolorbox}[wd=\paperwidth,ht=2.7ex,dp=1.1ex,leftskip=.55cm,rightskip=.55cm]{author in head/foot}\color{Gris}\scriptsize Ide y Talam\`as (2025) --- IA en la econom\'ia del conocimiento\hfill\textcolor{Petroleo}{\insertframenumber/\inserttotalframenumber}\end{beamercolorbox}}
+\setbeamertemplate{footline}{%
+\leavevmode\hbox{%
+\begin{beamercolorbox}[wd=.88\paperwidth,ht=2.7ex,dp=1.1ex,leftskip=.55cm]{author in head/foot}%
+\color{Gris}\scriptsize Ide y Talam\`as (2025) --- IA en la econom\'ia del conocimiento
+\end{beamercolorbox}%
+\begin{beamercolorbox}[wd=.12\paperwidth,ht=2.7ex,dp=1.1ex,center]{author in head/foot}%
+\color{Petroleo}\scriptsize\insertframenumber/\inserttotalframenumber
+\end{beamercolorbox}}\vskip0pt}
 \setbeamerfont{title}{size=\fontsize{25}{29}\selectfont,series=\bfseries}
 \setbeamerfont{frametitle}{size=\Large,series=\bfseries}
 \newcommand{\clave}[1]{\textcolor{Petroleo}{\textbf{#1}}}
@@ -230,46 +237,49 @@ si $a>0$ y $n>1$.
 Lean verifica la comparaci\'on algebraica discreta. No demuestra que las f\'ormulas salariales emerjan del equilibrio continuo: esas ecuaciones son la interfaz econ\'omica de entrada.
 \end{block}
 \column{0.48\textwidth}
-\clave{Statement Lean}
+\clave{Statement Lean}\par
 \vspace{0.08cm}
-{\scriptsize\ttfamily
+{\fontsize{7.5}{9}\selectfont\ttfamily
 def LowTypeWageAdvantageSpec : Prop :=\\
-\quad forall \{a n : Real\},\\
+\quad forall \{a n wA wN : Real\},\\
 \qquad 0 < a -> 1 < n ->\\
-\qquad a > a * (1 - 1 / n)\par}
+\qquad wA = a * (1 - 1 / n) ->\\
+\qquad wN = a -> wN > wA\par}
 \vspace{0.25cm}
-{\small Los reales representan salarios, capacidad y span of control. Las hip\'otesis excluyen IA sin capacidad y equipos degenerados.}
+{\small Las dos igualdades salariales quedan como premisas visibles: Lean audita su consecuencia algebraica, no las ``esconde'' como si ya hubiera formalizado el equilibrio.}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Lean: fragmento de prueba y alcance}
+\begin{frame}{Lean: qu\'e certifica}
 \begin{columns}[T,onlytextwidth]
-\column{0.58\textwidth}
-\clave{Paso relevante}
+\column{0.52\textwidth}
+\clave{1. Gap salarial del bottom}\par
 \vspace{0.08cm}
 {\scriptsize\ttfamily
+rw [hwA, hwN]\\
 have hn0 : 0 < n := lt\_trans zero\_lt\_one hn\\
-have hgap : 0 < a / n := div\_pos ha hn0\\
-have hid : a - a * (1 - 1 / n) = a / n := by\\
-\quad field\_simp\\
-\quad ring\\
-linarith [hgap, hid]\par}
+rw [mul\_sub, mul\_one]\\
+exact sub\_lt\_self a\\
+\quad (mul\_pos ha (one\_div\_pos.mpr hn0))\par}
 \vspace{0.22cm}
-{\footnotesize La prueba transforma la diferencia salarial en $a/n$, demuestra que el denominador es positivo y cierra el orden con aritm\'etica lineal.}
-\column{0.38\textwidth}
-\clave{Qu\'e verifica}
+{\footnotesize La reescritura deja $a-a(1/n)<a$; Lean certifica que $a(1/n)>0$.}
+
+\vspace{0.23cm}
+\clave{2. Puente para producto estricto}\par
+{\tiny\ttfamily
+0 < extra ->\\
+yA = yN + extra -> yA > yN\par}
+{\footnotesize Lean exige explicitar \texttt{extra > 0}: la mera inclusi\'on factible solo producir\'ia una desigualdad d\'ebil.}
+
+\column{0.44\textwidth}
+\begin{block}{Lectura del certificado}
 \begin{itemize}\footnotesize
-\item Los supuestos visibles bastan.
-\item No hay divisi\'on por cero escondida.
-\item La conclusi\'on coincide con el mecanismo discreto.
+\item \textbf{S\'i verifica:} que las hip\'otesis escritas bastan y que no hay divisi\'on por cero.
+\item \textbf{Detecta:} el supuesto faltante para pasar de $Y^A\ge Y^N$ a $Y^A>Y^N$.
+\item \textbf{No verifica:} el equilibrio continuo, los umbrales $\bar z_{AI}$ y $h_0$, ni las Proposiciones 5--6 completas.
 \end{itemize}
-\clave{Qu\'e no verifica}
-\begin{itemize}\footnotesize
-\item El equilibrio continuo.
-\item Los umbrales $\bar z_{AI}$ o $h_0$.
-\item La Proposici\'on 6 completa.
-\end{itemize}
-{\scriptsize\color{Gris}El estado exacto se reporta dentro de \texttt{lean/}.}
+\end{block}
+{\scriptsize\color{Gris}Por eso el repositorio declara el estado como \textit{partially formalized}.}
 \end{columns}
 \end{frame}
 
@@ -288,7 +298,7 @@ Prefiere IA aut\'onoma bajo $h<h_0$ y $z_{AI}<1$, porque escala su conocimiento 
 La autonom\'ia evita c\'omputo ocioso y eleva el producto: $Y^A>Y^N$.
 \end{block}
 \end{columns}
-\vspace{0.28cm}
+\vspace{0.38cm}
 \centering
 {\Large\color{Noche}\textbf{Autonom\'ia define el conjunto de usos; capacidad define cu\'ando esos usos importan.}}
 \vspace{0.28cm}

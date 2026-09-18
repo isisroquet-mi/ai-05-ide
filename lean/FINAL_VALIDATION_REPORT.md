@@ -33,3 +33,7 @@ outside the formalized scope.
 
 Target: `lake build +IT25KnowledgeEconomy`.
 
+Verified on 2026-09-17: the target built successfully (757 jobs). The command
+`python scripts/paper_contribution.py check IT25KnowledgeEconomy --fast` also
+completed successfully, including the paper-interface build and `git diff
+--check`.

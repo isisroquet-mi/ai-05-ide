@@ -1,4 +1,4 @@
-import Mathlib.Algebra.Order.Field.Basic
+import Mathlib.Data.Real.Basic
 
 /-!
 # Paper-Facing Theorems: Artificial Intelligence in the Knowledge Economy
@@ -34,7 +34,7 @@ theorem lowTypeWageAdvantage_of_equilibriumFormulas
   rw [hwA, hwN]
   have hn0 : 0 < n := lt_trans zero_lt_one hn
   rw [mul_sub, mul_one]
-  exact sub_lt_self a (div_pos ha hn0)
+  exact sub_lt_self a (mul_pos ha (one_div_pos.mpr hn0))
 
 theorem strictOutputGain_of_positiveAutonomousOpportunity
     {yN yA extra : ℝ}

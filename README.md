@@ -1,103 +1,108 @@
-# Repository 1 — Aouad, Lykouris & Zhong (2026)
+# Repositorio 5 — Ide y Talamàs (2025)
 
-*Human-AI Productivity Paradoxes: Modeling the Interplay of Skill, Effort, and AI Assistance*
-[arXiv:2605.11350](https://arxiv.org/abs/2605.11350) · [cs.GT]
+## Paper y versión leída
 
-> **This is the worked example** for *Artificial Intelligence and Economic
-> Modeling* (UP 2026-II). It shows what a weekly repository looks like when it is
-> done well. Yours does not have to be this long — see "What is required" below.
+**Ide, E., & Talamàs, E. (2025). “Artificial Intelligence in the Knowledge Economy”. _Journal of Political Economy_, 133(12), 3762–3800.**
 
----
+Para el análisis económico leí la versión publicada del curso, fechada el 20 de mayo de 2025 (39 pp.). La formalización fija la versión **arXiv v11, 25 de febrero de 2025** (35 pp.), como exige la consigna. Las Proposiciones 1–6 mantienen la misma numeración y contenido sustantivo en ambas versiones.
 
-## What question the paper answers
+## 1. Pregunta
 
-When does AI assistance make a worker **less** productive?
+¿Cómo cambian la organización del trabajo, los salarios y el producto cuando una IA con conocimiento \(z_{AI}\) puede resolver problemas y, además, puede o no actuar autónomamente?
 
-The paper picks one mechanism and pushes it: AI is a **perfectly substitutable
-input**. Skill $s$, effort $e$ and assistance $a$ enter production only through
-their sum, $x = s + e + a$. Nothing else is going on — no learning, no
-complementarity, no contracting. Everything that follows comes from that single
-modelling choice plus a linear cost of effort.
+La comparación tiene **dos dimensiones distintas**:
 
-## The agent's problem
+1. **capacidad**, medida por \(z_{AI}\);
+2. **autonomía**: una IA autónoma puede producir como coworker y asesorar como solver; una IA no autónoma solo puede asesorar.
 
-$$\max_{e \ge 0}\; p(s+e+a) - \gamma e$$
+## 2. Problema del agente y de la firma
 
-with $p$ weakly increasing, concave and twice differentiable, $\gamma > 0$, and
-one constraint that turns out to carry the whole result: $e \ge 0$.
+Cada humano tiene conocimiento \(z\in[0,1]\) y una unidad de tiempo. La dificultad de una oportunidad es \(x\sim U[0,1]\), de modo que el agente resuelve solo cuando \(x\le z\). Una consulta al solver consume \(h\in(0,1)\) unidades de su tiempo. Por eso, un solver que ayuda a trabajadores de tipo \(z\) puede supervisar
 
-## The main result, with all its conditions
+$$
+n(z)=\frac{1}{h(1-z)},\qquad h\,n(z)(1-z)=1.
+$$
 
-Let $x^{*}$ be the **largest** maximiser of $p(x) - \gamma x$:
+Los humanos eligen entre producir solos, trabajar en la capa inferior o ser solvers. Las firmas competitivas eligen estructura y matching. Sus beneficios relevantes son
 
-$$x^{*} = \max \arg\max_{x} \left[\, p(x) - \gamma x \,\right]$$
+$$
+\Pi_2^{nA}(s,z)=n(z)[s-w(z)]-w(s),
+$$
 
-This requires a **regularity condition**, without which $x^{*}$ need not exist:
+$$
+\Pi_2^{tA}(z)=n(z)[z_{AI}-w(z)]-r,
+\qquad
+\Pi_2^{bA}(s)=n(z_{AI})[s-r]-w(s).
+$$
 
-$$\limsup_{x \to \infty} \frac{p(x)}{x} < \gamma$$
+En equilibrio competitivo, \(\Pi=0\). La IA autónoma tiene un costo de oportunidad: una unidad de cómputo usada como solver también podría producir sola, por lo que \(r^A>0\). La IA no autónoma deja cómputo ocioso y \(r^N=0\).
 
-**Proposition 2.1.** Under those conditions,
+## 3. Resultado principal y condiciones
 
-$$e^{*}(s,a) = \left(x^{*} - s - a\right)_{+}, \qquad
-  p^{*}(s,a) = \max\left\{ p(x^{*}),\, p(s+a) \right\}$$
+**Proposición 5 — IA autónoma.** Si
 
-*Intuition in one sentence:* the agent has a single target level of total input,
-tops it up with effort, and once skill plus AI already reach it he stops working.
+$$
+B=\{z<z_{AI}:w^A(z)>w(z)\},\qquad
+T=\{z>z_{AI}:w^A(z)>w(z)\},
+$$
 
-Two things worth noticing about the proof. It is a **case split** — interior
-versus corner — and contains **no differentiation at all**; and the largest-argmax
-tie-break is not decoration, it is what makes $e^{*}$ well defined when
-$p(x)-\gamma x$ has a flat maximum.
+entonces los ganadores aparecen en los extremos. Existe \(\bar z_{AI}\in\operatorname{int}W\) tal que
 
-## Sections 3–5: stated, not derived
+$$
+B\neq\varnothing \iff z_{AI}>\bar z_{AI}.
+$$
 
-The three headline results — the deskilling paradox, the unreliability paradox
-and skill polarisation — use machinery well beyond Section 2: a continuous-time
-birth–death Markov chain and its steady state, Arrow–Pratt risk aversion applied
-to a *production* function with IARA/DARA driving the sign, and Bayesian updating
-over a binary signal. They are worth understanding; they are not worth trying to
-reproduce in a week. See `extra/tutorial-alz-completo.pdf` for the full walk.
+Por tanto, el bottom gana con IA autónoma **solo si la IA es suficientemente capaz**. Bajo el supuesto principal \(h<h_0\) y mientras \(z_{AI}\in[0,1)\), siempre hay ganadores en el top: \(T\neq\varnothing\). Esta conclusión no es general si \(h\ge h_0\), y con \(z_{AI}=1\) los humanos más conocedores pueden perder.
 
----
+**Proposición 6 — IA no autónoma.** El equilibrio es único, eficiente, maximiza ingreso laboral y \(r^N=0\). Si \(z_{AI}\le w(0)\), la IA no se usa y salarios y ocupaciones coinciden con el equilibrio pre-IA. Si \(z_{AI}>w(0)\), la usan como solver únicamente los individuos menos conocedores. Además:
 
-## What is in this repository
+$$
+Y^A>Y^N,
+$$
 
-| File | What it is |
-|---|---|
-| `README.md` | This page |
-| `prompts.md` | The full LLM conversation, unedited |
-| `extensions.md` | Which assumptions could be relaxed, and which are dead ends |
-| `hand/` | The derivation of Proposition 2.1, written out by hand |
-| `presentation.tex` / `.pdf` | The 5-minute Beamer deck |
-| `paper/` | The article itself |
-| `extra/` | Above the floor: a full tutorial of the paper and two lecture decks |
+$$
+\exists\varepsilon>0:\quad
+w^N(z)\ge\max\{w(z),w^A(z)\}
+\quad\forall z\in[0,\varepsilon),
+$$
 
-## What is required
+con desigualdad estricta si \(z_{AI}>w(0)\), mientras que cerca del top
 
-Only four things. The rest of this repository is above the floor.
+$$
+w^N(z)\le w^A(z),
+$$
 
-1. **`README.md`** — one page: the question, the agent's problem, the main result
-   **with all its conditions**.
-2. **`prompts.md`** — your prompts and the answers, **raw**. Do not tidy them up:
-   the value is in seeing where the model went wrong.
-3. **`hand/`** — at least one photograph of something you derived by hand. Not the
-   whole paper: the one step you did not believe until you did it yourself.
-4. **`presentation.tex` / `.pdf`** — the 5-minute deck, source and compiled.
+estrictamente para \(z\ne1\).
 
-Deadline is **Thursday 22:00**, work merged into `main` through a pull request,
-and the repository URL posted as a comment on that week's issue.
+## 4. Derivación discreta y veredicto
 
-## About `hand/`
+En una economía con tipos \(z_L<a<z_H\), \(z_{AI}=a\) y \(n_L=1/[h(1-z_L)]>1\), beneficio cero da
 
-`hand/prop-2-1-derivacion-a-mano.pdf` is three phone photos of a notebook page.
-That is exactly the standard: crooked, with crossings-out, no transcription. What
-it shows is the first-order condition and the interior-versus-corner split written
-out step by step — the part I did not want to take on trust.
+$$
+w_L^A=a\left(1-\frac1{n_L}\right),
+\qquad
+w_L^N=a.
+$$
 
-## About the LLM conversation
+Así, para \(a>0\),
 
-`prompts.md` is the export of the session that produced the tutorial in `extra/`.
-Read it for what it gets wrong as much as for what it gets right. The episode
-worth studying is on slide 4 of the presentation: asked for "the most natural
-extension", the model confidently proposed relaxing the linear cost — which the
-authors had already done in Appendix D. It took opening the appendix to find out.
+$$
+w_L^N-w_L^A=\frac{a}{n_L}>0.
+$$
+
+La IA no autónoma favorece relativamente al tipo bajo porque no compite con él en producción y no tiene costo de oportunidad como productor independiente.
+
+La derivación manual en `hand/` también dejó visible un paso que debía corregirse: la inclusión del conjunto factible solo prueba \(Y^A\ge Y^N\). Para obtener la desigualdad estricta del paper, \(Y^A>Y^N\), hay que usar que la autonomía habilita una oportunidad productiva adicional con valor positivo para el cómputo que, bajo no autonomía, queda ocioso.
+
+## 5. Interpretación
+
+Restringir la autonomía favorece relativamente al bottom, pero reduce el producto agregado. Sin embargo, la afirmación “el efecto distributivo depende de autonomía, no de capacidad” es incompleta: el bottom gana con IA autónoma si y solo si \(z_{AI}>\bar z_{AI}\), y la IA no autónoma solo se adopta si \(z_{AI}>w(0)\). **La autonomía determina qué usos del cómputo son posibles; la capacidad determina cuándo esos usos alteran el equilibrio.**
+
+## Contenido del repositorio
+
+- `README.md`: pregunta, problema del agente, resultados y condiciones.
+- `prompts.md`: conversación original sin editar.
+- `hand/`: derivación discreta escrita a mano.
+- `presentation.tex` y `presentation.pdf`: presentación Beamer de 20 minutos.
+- `lean/`: carpeta completa generada por AppliedModelingLib, con código, estado, auditorías y documentación.
+

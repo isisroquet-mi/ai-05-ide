@@ -1,114 +1,298 @@
 \documentclass[aspectratio=169,11pt]{beamer}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[english]{babel}
-\usepackage{amsmath,amssymb}
-\usepackage{booktabs}
-\usetheme{default}
-\usecolortheme{seahorse}
-\setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{footline}[frame number]
-\setbeamerfont{frametitle}{size=\large}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{amsmath,amssymb,graphicx}
+\usepackage{lmodern}
+\renewcommand{\ttdefault}{lmss}
 
-\title{Aouad, Lykouris \& Zhong (2026)}
-\subtitle{\emph{Human-AI Productivity Paradoxes} --- Section 2}
-\author{Alexander Quispe}
-\date{Repository 1 \textperiodcentered{} Week of August 17--22}
+\definecolor{Noche}{HTML}{12263A}
+\definecolor{Petroleo}{HTML}{1B4965}
+\definecolor{Turquesa}{HTML}{2A9D8F}
+\definecolor{Coral}{HTML}{E76F51}
+\definecolor{Hielo}{HTML}{EAF4F4}
+\definecolor{Gris}{HTML}{52606D}
+\setbeamercolor{normal text}{fg=Noche,bg=white}
+\setbeamercolor{structure}{fg=Petroleo}
+\setbeamercolor{frametitle}{fg=Noche,bg=white}
+\setbeamercolor{block title}{fg=white,bg=Petroleo}
+\setbeamercolor{block body}{fg=Noche,bg=Hielo}
+\setbeamercolor{alerted text}{fg=Coral}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{items}[circle]
+\setbeamertemplate{frametitle}{\vspace{0.18cm}\insertframetitle\par\vspace{0.02cm}{\color{Turquesa}\rule{1.35cm}{1.7pt}}}
+\setbeamertemplate{footline}{\begin{beamercolorbox}[wd=\paperwidth,ht=2.7ex,dp=1.1ex,leftskip=.55cm,rightskip=.55cm]{author in head/foot}\color{Gris}\scriptsize Ide y Talam\`as (2025) --- IA en la econom\'ia del conocimiento\hfill\textcolor{Petroleo}{\insertframenumber/\inserttotalframenumber}\end{beamercolorbox}}
+\setbeamerfont{title}{size=\fontsize{25}{29}\selectfont,series=\bfseries}
+\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+\newcommand{\clave}[1]{\textcolor{Petroleo}{\textbf{#1}}}
+\newcommand{\repo}{\href{https://github.com/isisroquet-mi/ai-05-ide}{github.com/isisroquet-mi/ai-05-ide}}
+
+\title{Inteligencia artificial en la econom\'ia del conocimiento}
+\subtitle{Capacidad, autonom\'ia y distribuci\'on}
+\author{Isis Roque}
+\date{Ide y Talam\`as (JPE, 2025)}
 
 \begin{document}
 
-%================= PORTADA (con el enlace al repositorio) =============
+\begingroup
+\setbeamercolor{background canvas}{bg=Noche}
 \begin{frame}[plain]
-  \titlepage
-  \begin{center}\small
-    \texttt{github.com/alexanderquispe/ai-01-aouad}
-  \end{center}
+\vfill
+\hspace{0.65cm}\begin{minipage}{0.84\paperwidth}
+{\color{Turquesa}\rule{1.6cm}{2pt}}\\[0.45cm]
+{\usebeamerfont{title}\color{white}\inserttitle\par}\vspace{0.34cm}
+{\large\color{Hielo}\insertsubtitle\par}\vspace{0.85cm}
+{\normalsize\color{white}\insertauthor\par}
+{\small\color{Hielo}\insertdate\par}\vspace{0.45cm}
+{\small\color{Turquesa}\repo}
+\end{minipage}
+\vfill
+\end{frame}
+\endgroup
+
+\begin{frame}{La pregunta tiene dos dimensiones}
+\begin{block}{Pregunta}
+¿C\'omo cambian ocupaciones, matching, salarios y producto cuando la IA puede realizar trabajo cognitivo basado en conocimiento no codificable?
+\end{block}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\clave{Capacidad}
+\[z_{AI}\in[0,1]\]
+{\small Cu\'antos problemas puede resolver. Determina si la tecnolog\'ia se adopta y si el bottom puede ganar.}
+\column{0.48\textwidth}
+\clave{Autonom\'ia}
+\begin{itemize}\small
+\item \textbf{Aut\'onoma}: coworker, productor independiente y solver/copilot.
+\item \textbf{No aut\'onoma}: solamente solver/copilot.
+\end{itemize}
+\end{columns}
+\vspace{0.12cm}
+{\small\color{Coral}\textbf{Trampa:} decir que ``todo depende de la autonom\'ia'' borra la condici\'on de capacidad de las Proposiciones 5 y 6.}
 \end{frame}
 
-%================= 1. EL ART\'ICULO ====================================
-\begin{frame}{1 \textperiodcentered{} The paper and the agent's problem}
-  \textbf{Question.} When does AI assistance make a worker \emph{less} productive?
-
-  \medskip
-  \textbf{The single mechanism.} AI is a \emph{perfectly substitutable input}:
-  skill, effort and assistance enter production only through their sum.
-  \[ x \;=\; s + e + a \]
-
-  \medskip
-  \textbf{The agent's problem.} Choose effort $e$ to maximise output net of a
-  \emph{linear} cost:
-  \[ \max_{e \ge 0}\; p(s+e+a) \;-\; \gamma e \]
-
-  \smallskip
-  \begin{itemize}\small
-    \item $p$ weakly increasing, concave, twice differentiable; $\gamma>0$.
-    \item Only constraint: $e \ge 0$ --- and it binds. That is the whole result.
-  \end{itemize}
+\begin{frame}{El problema del agente}
+\begin{columns}[T,onlytextwidth]
+\column{0.54\textwidth}
+\clave{Tecnolog\'ia de conocimiento}
+\[x\sim U[0,1],\qquad \text{resuelve solo si }x\le z.\]
+Un humano de tipo $z$ resuelve una fracci\'on $z$ de las oportunidades. Si falla, consulta a un solver y consume $h$ unidades de su tiempo.
+\[h\,n(z)(1-z)=1\quad\Longrightarrow\quad\boxed{n(z)=\frac{1}{h(1-z)}}.\]
+\column{0.42\textwidth}
+\clave{Elecci\'on ocupacional}
+\[\max\{\text{independiente},\ \text{worker},\ \text{solver}\}.\]
+\begin{itemize}\small
+\item Tipos bajos: workers.
+\item Tipos altos: solvers.
+\item El matching determina productividad y reparto del excedente.
+\end{itemize}
+\end{columns}
 \end{frame}
 
-%================= 2. EL RESULTADO ===================================
-\begin{frame}{2 \textperiodcentered{} Proposition 2.1, with all its conditions}
-  Define $x^{*}$ as the \emph{largest} maximiser of $p(x)-\gamma x$:
-  \[ x^{*} \;=\; \max\,\arg\max_{x}\;\bigl[\,p(x)-\gamma x\,\bigr] \]
-
-  \textbf{Regularity condition} (without it $x^{*}$ need not exist):
-  \[ \limsup_{x\to\infty} \frac{p(x)}{x} \;<\; \gamma \]
-
-  \medskip
-  \textbf{Then}
-  \[ e^{*}(s,a) = \bigl(x^{*}-s-a\bigr)_{+}, \qquad
-     p^{*}(s,a) = \max\bigl\{\,p(x^{*}),\; p(s+a)\,\bigr\} \]
-
-  \medskip
-  \footnotesize\emph{Intuition.} The agent has one target level of total input;
-  he tops it up with effort, and once skill plus AI already reach it he simply
-  stops working.
+\begin{frame}{Firmas: d\'onde entra la IA}
+\begin{columns}[T,onlytextwidth]
+\column{0.50\textwidth}
+\clave{Dos capas sin automatizaci\'on}
+\[\Pi_2^{nA}(s,z)=n(z)[s-w(z)]-w(s).\]
+\clave{IA como solver}
+\[\Pi_2^{tA}(z)=n(z)[z_{AI}-w(z)]-r.\]
+\column{0.46\textwidth}
+\clave{IA como worker}
+\[\Pi_2^{bA}(s)=n(z_{AI})[s-r]-w(s).\]
+\begin{block}{Equilibrio competitivo}
+\[\Pi=0.\]
+La firma elige estructura, matching y uso de IA; los precios trasladan la escasez relativa a los salarios.
+\end{block}
+\end{columns}
 \end{frame}
 
-%================= 3. LO QUE HICE ====================================
-\begin{frame}{3 \textperiodcentered{} What I did}
-  \textbf{Reproduced} Proposition 2.1 by hand --- the interior-versus-corner
-  split, with no differentiation in the proof (\texttt{hand/}).
-
-  \medskip
-  \textbf{Assumptions I considered relaxing}
-  \begin{itemize}\small
-    \item \textbf{Linear cost $\to$ convex.} \emph{Dead end}: the authors already
-      do it in Appendix D (Props. D.3, D.6). Replication, not extension.
-    \item \textbf{Myopia.} A two-period agent who internalises skill dynamics.
-      Never relaxed anywhere in the paper --- this is the live one.
-    \item \textbf{Complementarity inside $p(\cdot)$} rather than as an added
-      interaction term. Harder: \S{}4.4 and \S{}5.3 partly pre-empt it.
-  \end{itemize}
-
-  \medskip
-  \textbf{Also produced} a full step-by-step tutorial of the paper and two
-  lecture decks (\texttt{extra/}).
+\begin{frame}{Econom\'ia discreta: el mecanismo del bottom}
+\begin{columns}[T,onlytextwidth]
+\column{0.50\textwidth}
+Suponga dos tipos $z_L<a<z_H$, con $z_{AI}=a$ y
+\[n_L=\frac{1}{h(1-z_L)}>1.\]
+\clave{IA aut\'onoma}
+\[r^A=a,\qquad n_L(a-w_L^A)-r^A=0,\]
+\[\boxed{w_L^A=a\left(1-\frac1{n_L}\right)}.\]
+\column{0.46\textwidth}
+\clave{IA no aut\'onoma}
+\[r^N=0,\qquad n_L(a-w_L^N)=0,\]
+\[\boxed{w_L^N=a}.\]
+Por tanto, si $a>0$:
+\[\boxed{w_L^N-w_L^A=\frac{a}{n_L}>0}.\]
+\end{columns}
+{\small\color{Gris}La IA aut\'onoma debe ser compensada por la producci\'on a la que renuncia cuando asesora; la no aut\'onoma no tiene ese costo de oportunidad.}
 \end{frame}
 
-%================= 4. LA IA =========================================
-\begin{frame}{4 \textperiodcentered{} Where I did not believe the AI}
-  \textbf{What I asked.} ``What is the most natural extension of this model?''
+\begin{frame}{Proposici\'on 5: IA aut\'onoma}
+Defina
+\[B=\{z<z_{AI}:w^A(z)>w(z)\},\qquad T=\{z>z_{AI}:w^A(z)>w(z)\}.\]
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{Bottom}
+Existe $\bar z_{AI}\in\operatorname{int}W$ tal que
+\[B\neq\varnothing\iff z_{AI}>\bar z_{AI}.\]
+Capacidad suficientemente alta: el efecto de participaci\'on en el excedente domina al peor matching.
+\end{block}
+\column{0.48\textwidth}
+\begin{block}{Top}
+\[T\neq\varnothing\quad\forall z_{AI}\in[0,1),\]
+pero bajo el supuesto principal $h<h_0$. Si $h\ge h_0$ el resultado no es general; con $z_{AI}=1$ los humanos del top pueden perder.
+\end{block}
+\end{columns}
+\end{frame}
 
-  \medskip
-  \textbf{What the model answered.} Relax the linear cost $c(e)=\gamma e$ to a
-  strictly convex $c(e)$ --- presented confidently as an open direction.
+\begin{frame}{Proposici\'on 6: IA no aut\'onoma}
+\begin{columns}[T,onlytextwidth]
+\column{0.43\textwidth}
+\clave{Adopci\'on}
+\begin{itemize}\small
+\item $r^N=0$: parte del c\'omputo queda ocioso.
+\item Si $z_{AI}\le w(0)$, la IA no se usa y el equilibrio pre-IA no cambia.
+\item Si $z_{AI}>w(0)$, la usan como solver los menos conocedores.
+\end{itemize}
+\column{0.53\textwidth}
+\clave{Comparaci\'on}
+\[\boxed{Y^A>Y^N}\]
+Para alg\'un $\varepsilon>0$:
+\[w^N(z)\ge\max\{w(z),w^A(z)\},\quad z\in[0,\varepsilon),\]
+\[w^N(z)\le w^A(z),\quad z\in(1-\varepsilon,1].\]
+Las desigualdades se vuelven estrictas bajo las condiciones indicadas en la proposici\'on.
+\end{columns}
+\end{frame}
 
-  \medskip
-  \textbf{My verdict: \textcolor{red}{incorrect as an extension}.}
-  \begin{itemize}\small
-    \item Appendix D is titled \emph{``Extension to convex cost functions''} and
-      redoes Sections 2--4 under strictly convex cost.
-    \item So the proposal is already in the paper. I checked the appendix
-      directly rather than taking the answer at face value.
-    \item \emph{Caveat worth keeping:} Appendix D covers \S\S{}2--4 but \textbf{not}
-      \S{}5, so convex cost applied to the skill-polarisation result is genuinely
-      untouched.
-  \end{itemize}
+\begin{frame}{El trade-off distributivo}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{IA no aut\'onoma}
+\begin{itemize}\small
+\item No compite con el bottom en producci\'on.
+\item $r^N=0$: el bottom captura m\'as excedente.
+\item Parte del c\'omputo queda ocioso.
+\end{itemize}
+\end{block}
+\column{0.48\textwidth}
+\begin{block}{IA aut\'onoma}
+\begin{itemize}\small
+\item Los expertos la usan como worker.
+\item Permite aplicar su conocimiento a m\'as unidades.
+\item Todos los usos de la IA no aut\'onoma siguen disponibles.
+\end{itemize}
+\end{block}
+\end{columns}
+\centering
+\[\boxed{\text{autonom\'ia restringida: bottom relativamente mejor, pero menor output}}\]
+\end{frame}
 
-  \medskip
-  \footnotesize The step I re-derived by hand is in \texttt{hand/} --- I did not
-  trust the algebra of the first-order condition until I had written it out.
+\begin{frame}{Qu\'e hice anal\'itica y computacionalmente}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\clave{Anal\'itico}
+\begin{itemize}\small
+\item Reconstru\'i la econom\'ia discreta de dos tipos.
+\item Deriv\'e $w_L^A$ y $w_L^N$ desde beneficio cero.
+\item Separ\'e capacidad de autonom\'ia en cada condici\'on.
+\item Contrast\'e la versi\'on JPE con arXiv v11.
+\end{itemize}
+\column{0.48\textwidth}
+\clave{Computacional}
+\begin{itemize}\small
+\item Formalic\'e en Lean el gap salarial discreto.
+\item Distingu\'i $Y^A\ge Y^N$ por inclusi\'on factible de $Y^A>Y^N$ por oportunidad adicional positiva.
+\item Conserv\'e el estado y los reportes generados por AppliedModelingLib.
+\end{itemize}
+\end{columns}
+\vspace{0.15cm}
+{\small\color{Gris}El objetivo no fue simular el continuo completo, sino aislar el mecanismo que produce las comparaciones de las Proposiciones 5 y 6.}
+\end{frame}
+
+\begin{frame}{D\'onde no le cre\'i a la IA}
+\begin{columns}[T,onlytextwidth]
+\column{0.43\textwidth}
+\clave{El salto sospechoso}
+\[\mathcal F^N\subseteq\mathcal F^A\quad\Longrightarrow\quad Y^A\ge Y^N.\]
+Eso \textbf{no} basta para concluir
+\[Y^A>Y^N.\]
+\begin{block}{Veredicto}
+\footnotesize La inclusi\'on solo da la desigualdad d\'ebil. La estricta requiere una oportunidad adicional con excedente positivo: el c\'omputo aut\'onomo puede producir por s\'i mismo.
+\end{block}
+\column{0.53\textwidth}
+\centering
+\IfFileExists{hand/derivacion_manual_proposicion_6.pdf}{\fcolorbox{Turquesa}{white}{\includegraphics[page=1,width=0.96\linewidth,height=0.67\textheight,trim=20 580 20 22,clip,keepaspectratio]{hand/derivacion_manual_proposicion_6.pdf}}}{\fcolorbox{Turquesa}{white}{\parbox[c][0.60\textheight][c]{0.92\linewidth}{\centering\color{Gris}Inserte aqu\'i la derivaci\'on manual.}}}
+{\tiny\color{Gris}Derivaci\'on manual: salarios del tipo bajo y comparaci\'on de producto.}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Lean: de la ecuaci\'on a la proposici\'on}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\clave{Ecuaci\'on matem\'atica}
+\[w_L^N-w_L^A=a-a\left(1-\frac1n\right)=\frac an>0,\]
+si $a>0$ y $n>1$.
+\begin{block}{Frontera de traducci\'on}
+Lean verifica la comparaci\'on algebraica discreta. No demuestra que las f\'ormulas salariales emerjan del equilibrio continuo: esas ecuaciones son la interfaz econ\'omica de entrada.
+\end{block}
+\column{0.48\textwidth}
+\clave{Statement Lean}
+\vspace{0.08cm}
+{\scriptsize\ttfamily
+def LowTypeWageAdvantageSpec : Prop :=\\
+\quad forall \{a n : Real\},\\
+\qquad 0 < a -> 1 < n ->\\
+\qquad a > a * (1 - 1 / n)\par}
+\vspace{0.25cm}
+{\small Los reales representan salarios, capacidad y span of control. Las hip\'otesis excluyen IA sin capacidad y equipos degenerados.}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Lean: fragmento de prueba y alcance}
+\begin{columns}[T,onlytextwidth]
+\column{0.58\textwidth}
+\clave{Paso relevante}
+\vspace{0.08cm}
+{\scriptsize\ttfamily
+have hn0 : 0 < n := lt\_trans zero\_lt\_one hn\\
+have hgap : 0 < a / n := div\_pos ha hn0\\
+have hid : a - a * (1 - 1 / n) = a / n := by\\
+\quad field\_simp\\
+\quad ring\\
+linarith [hgap, hid]\par}
+\vspace{0.22cm}
+{\footnotesize La prueba transforma la diferencia salarial en $a/n$, demuestra que el denominador es positivo y cierra el orden con aritm\'etica lineal.}
+\column{0.38\textwidth}
+\clave{Qu\'e verifica}
+\begin{itemize}\footnotesize
+\item Los supuestos visibles bastan.
+\item No hay divisi\'on por cero escondida.
+\item La conclusi\'on coincide con el mecanismo discreto.
+\end{itemize}
+\clave{Qu\'e no verifica}
+\begin{itemize}\footnotesize
+\item El equilibrio continuo.
+\item Los umbrales $\bar z_{AI}$ o $h_0$.
+\item La Proposici\'on 6 completa.
+\end{itemize}
+{\scriptsize\color{Gris}El estado exacto se reporta dentro de \texttt{lean/}.}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Conclusi\'on}
+\begin{columns}[T,onlytextwidth]
+\column{0.31\textwidth}
+\begin{block}{Bottom}
+Prefiere relativamente IA no aut\'onoma; con IA aut\'onoma gana solo si la capacidad supera el umbral.
+\end{block}
+\column{0.31\textwidth}
+\begin{block}{Top}
+Prefiere IA aut\'onoma bajo $h<h_0$ y $z_{AI}<1$, porque escala su conocimiento sobre m\'as producci\'on.
+\end{block}
+\column{0.31\textwidth}
+\begin{block}{Producto}
+La autonom\'ia evita c\'omputo ocioso y eleva el producto: $Y^A>Y^N$.
+\end{block}
+\end{columns}
+\vspace{0.28cm}
+\centering
+{\Large\color{Noche}\textbf{Autonom\'ia define el conjunto de usos; capacidad define cu\'ando esos usos importan.}}
+\vspace{0.28cm}
+{\small\color{Petroleo}\repo}
 \end{frame}
 
 \end{document}
